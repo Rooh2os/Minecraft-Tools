@@ -8,13 +8,19 @@ def clear():
     else:
         os.system('clear')
 
-def json_write(file,data,indent):
+def json_write(file:str,data,indent:int):
     with open(file,"w") as f:
         json.dump(data,f,indent=indent)
 
-def json_read(file):
+def json_read(file:str):
     try:
         with open("data","r") as f:
-            return json.load(file)
-    except(FileNotFoundError,):
-        return(FileNotFoundError)
+            return json.load(f)
+    except(FileNotFoundError):
+        raise(FileNotFoundError)
+    
+def print_list(lst:list):
+    ptr = 0
+    while ptr < len(lst):
+        print(f"{ptr}: {lst[ptr]}")
+        ptr += 1
