@@ -138,9 +138,9 @@ while True:
             print(f"Stacks: {(iput//64)} Items: {iput%64}")
         
         elif iput == 3: #stacks>items
-            iput = input("# of stacks\n")
-            iput1 = input("# of items\n")
-            print(f"You have {iput*64+iput1} items")
+            iput = int(input("# of stacks\n"))
+            iput1 = int(input("# of items\n"))
+            print(f"You have {iput1 + iput * 64} items")
         
         else: #bad input
             raise(ValueError)
