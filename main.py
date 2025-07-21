@@ -39,7 +39,7 @@ except(FileNotFoundError):
     print("No save data found, making new save data.")
 
 try: #get/make settings data
-    settings = (basic.json_read("settings.json"))
+    settings = (basic.json_read("settings.txt"))
     if settings["Debug mode"] == True:
         print(f"DEBUG: {settings}")
 except(FileNotFoundError):
@@ -47,10 +47,11 @@ except(FileNotFoundError):
         "Open server icon": True,
         "Use advanced ping": True,
         "Max saved servers": 10,
+        "Starting value for lists": "    ",
         
         "Debug mode": False
     }
-    basic.json_write("settings.json",settings,4)
+    basic.json_write("settings.txt",settings,4)
     print("No settings found, making new settings.")
 
 
@@ -99,27 +100,27 @@ while True:
                     print("Version:",data["version"])
                     
                     print("Motd:")
-                    basic.print_list(data["motd"]["clean"],numbers=False)
+                    basic.print_list(data["motd"]["clean"],settings["Starting value for lists"],print_numbers=False)
                     
                     print(f"Player count: {data["players"]["online"]}/{data["players"]["max"]}")
                     if "list" in data["players"]:
                         print("Players:")
                         for pname in data["players"]["list"]:
-                            print(pname["name"])
+                            print(settings["Starting value for lists"] + pname["name"])
                     
                     if "plugins" in data:
                         print("Plugins:")
                         for plname in data["plugins"]:
-                            print(plname["name"])
+                            print(settings["Starting value for lists"] + plname["name"])
                     
                     if "mods" in data:
                         print("Mods:")
                         for mname in data["mods"]:
-                            print(mname["name"],mname["version"])
+                            print(settings["Starting value for lists"] + mname["name"],mname["version"])
 
                     if "info" in data:
                         print("Info:")
-                        basic.print_list(data["info"]["clean"],numbers=False)
+                        basic.print_list(data["info"]["clean"],settings["Starting value for lists"],print_numbers=False)
                     
                     if "icon" in data:
                         imgdata = str(data["icon"])
