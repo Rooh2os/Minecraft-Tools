@@ -39,7 +39,7 @@ except(FileNotFoundError):
     print("No save data found, making new save data.")
 
 try: #get/make settings data
-    settings = (basic.json_read("settings.txt"))
+    settings = (basic.json_read("config.txt"))
     if settings["Debug mode"] == True:
         print(f"DEBUG: {settings}")
 except(FileNotFoundError):
@@ -51,7 +51,7 @@ except(FileNotFoundError):
         
         "Debug mode": False
     }
-    basic.json_write("settings.txt",settings,4)
+    basic.json_write("config.txt",settings,4)
     print("No settings found, making new settings.")
 
 

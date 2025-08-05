@@ -1,7 +1,0 @@
-{
-    "Open server icon": true,
-    "Use advanced ping": true,
-    "Max saved servers": 30,
-    "Starting value for lists": "    ",
-    "Debug mode": false
-}
