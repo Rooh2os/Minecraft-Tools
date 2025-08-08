@@ -15,7 +15,7 @@ def ping(host, cnt, tmot): #writen by AI
 
     except Exception as exc:
         
-        if settings["Debug mode"] == True:
+        if config["Debug mode"] == True:
            print(f"DEBUG: {exc}")
     return False
 
@@ -39,12 +39,12 @@ except(FileNotFoundError):
     servers = []
     print("No save data found, making new save data.")
 
-try: #get/make settings data
-    settings = (basic.json_read("config.txt"))
-    if settings["Debug mode"] == True:
-        print(f"DEBUG: {settings}")
+try: #get/make config data
+    config = (basic.json_read("config.txt"))
+    if config["Debug mode"] == True:
+        print(f"DEBUG: {config}")
 except(FileNotFoundError):
-    settings = {
+    config = {
         "Open server icon": True,
         "Save individual icons": False,
         "Use advanced ping": True,
@@ -53,8 +53,8 @@ except(FileNotFoundError):
         
         "Debug mode": False
     }
-    basic.json_write("config.txt",settings,4)
-    print("No settings found, making new settings.")
+    basic.json_write("config.txt",config,4)
+    print("No config found, making new config.")
 
 #try: #make pack folder
 #    basic.os.mkdir("packs")
@@ -85,21 +85,21 @@ while True:
 
             if not iput in servers: #adds iput to saved servers if not in saved servers
                 servers.insert(0,iput)
-                if len(servers) > settings["Max saved servers"]:
-                    servers.remove(servers[settings["Max saved servers"]])
+                if len(servers) > config["Max saved servers"]:
+                    servers.remove(servers[config["Max saved servers"]])
             else: #if it is move it to top
                 servers.remove(iput)
                 servers.insert(0,iput)
 
             basic.json_write("data",servers,0)
 
-            if settings["Use advanced ping"] == False: #only pings the server
+            if config["Use advanced ping"] == False: #only pings the server
                 if ping(iput,4,2) == True:
                     print("Your server is online!")
                 else:
                     print("Your server is offline.")
             else: #use the minecraft ping protocall
-                data = (get_data(iput,debug=settings["Debug mode"]))
+                data = (get_data(iput,debug=config["Debug mode"]))
 
                 if data["online"] == True:
                     print("Your server is online!")
@@ -107,33 +107,33 @@ while True:
                     print("Version:",data["version"])
                     
                     print("Motd:")
-                    basic.print_list(data["motd"]["clean"],settings["Starting value for lists"],print_numbers=False)
+                    basic.print_list(data["motd"]["clean"],config["Starting value for lists"],print_numbers=False)
                     
                     print(f"Player count: {data["players"]["online"]}/{data["players"]["max"]}")
                     if "list" in data["players"]:
                         print("Players:")
                         for pname in data["players"]["list"]:
-                            print(settings["Starting value for lists"] + pname["name"])
+                            print(config["Starting value for lists"] + pname["name"])
                     
                     if "plugins" in data:
                         print("Plugins:")
                         for plname in data["plugins"]:
-                            print(settings["Starting value for lists"] + plname["name"])
+                            print(config["Starting value for lists"] + plname["name"])
                     
                     if "mods" in data:
                         print("Mods:")
                         for mname in data["mods"]:
-                            print(settings["Starting value for lists"] + mname["name"],mname["version"])
+                            print(config["Starting value for lists"] + mname["name"],mname["version"])
 
                     if "info" in data:
                         print("Info:")
-                        basic.print_list(data["info"]["clean"],settings["Starting value for lists"],print_numbers=False)
+                        basic.print_list(data["info"]["clean"],config["Starting value for lists"],print_numbers=False)
                     
                     if "icon" in data:
                         imgdata = str(data["icon"])
                         imgdata = str(imgdata.split(",")[1])
 
-                        if settings["Save individual icons"]:
+                        if config["Save individual icons"]:
                             try:
                                 basic.os.mkdir("icons")
                             except(FileExistsError):
@@ -142,7 +142,7 @@ while True:
                                 f.write(base64.b64decode(imgdata))
                             
                             print(f"The server icon has been saved as {iput}.png")
-                            if settings["Open server icon"] == True:
+                            if config["Open server icon"] == True:
                                 icon = Image.open(f"icons/{iput}.png")
                                 icon.show()
                                 #basic.os.startfile(f"icons/{iput}.png")
@@ -151,7 +151,7 @@ while True:
                                 f.write(base64.b64decode(imgdata))
                         
                             print("The server icon has been saved as icon.png")
-                            if settings["Open server icon"] == True:
+                            if config["Open server icon"] == True:
                                 icon = Image.open("icon.png")
                                 icon.show()
                                 #basic.os.startfile("icon.png")
@@ -164,12 +164,12 @@ while True:
 
             data = (requests.get("https://piston-meta.mojang.com/mc/game/version_manifest.json"))
 
-            if settings["Debug mode"] == True:
+            if config["Debug mode"] == True:
                 print(data.json())
 
             data = (data.json())
 
-            if settings["Debug mode"] == True:
+            if config["Debug mode"] == True:
                 print(data)
             data = data["versions"]
             
@@ -177,14 +177,14 @@ while True:
             for v in data:
                 if v["id"] == iput:
                     break
-                if settings["Debug mode"]:
+                if config["Debug mode"]:
                     print(v["id"])
                 iput1 += 1
 
-            if settings["Debug mode"]:
+            if config["Debug mode"]:
                 print(iput1)
 
-            if settings["Debug mode"]:
+            if config["Debug mode"]:
                 print(len(data))
             if iput1+1 > (len(data)):
                 print("Could not find your version. Check the spelling.")
@@ -194,7 +194,7 @@ while True:
             data = requests.get(data[iput1]["url"])
             data = requests.get(data.json()["downloads"]["client"]["url"])
 
-            if settings["Debug mode"] == True:
+            if config["Debug mode"] == True:
                 print(data.text)
 
             with open("temp","wb") as f:
@@ -202,7 +202,7 @@ while True:
 
 
             with zipfile.ZipFile("temp","r") as zip:
-                if settings["Debug mode"]:
+                if config["Debug mode"]:
                     print(zip.namelist())
                 zip.extract("version.json",".")
                 basic.os.rename("version.json","temp1")
