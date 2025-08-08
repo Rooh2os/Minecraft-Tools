@@ -1,5 +1,6 @@
 {
     "Open server icon": true,
+    "Save individual icons": false,
     "Use advanced ping": true,
     "Max saved servers": 30,
     "Starting value for lists": "    ",
