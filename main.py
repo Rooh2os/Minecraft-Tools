@@ -2,6 +2,15 @@ import basic,requests,base64,zipfile
 from PIL import Image
 from pythonping import ping as pping
 
+#define vars
+config = dict
+servers = list
+iput = str #also sometimes an int
+iput1 = str #also sometimes an int
+
+
+
+
 
 def ping(host, cnt, tmot): #writen by AI
     try:
@@ -15,7 +24,7 @@ def ping(host, cnt, tmot): #writen by AI
 
     except Exception as exc:
         
-        if config["Debug mode"] == True:
+        if config["Debug mode"] == True: # type: ignore
            print(f"DEBUG: {exc}")
     return False
 
@@ -75,7 +84,7 @@ while True:
             
             iput1 = str(input("Server to ping?\nType a number for your saved servers or type a web address.\n"))
 
-            try: #is iput a number or a url
+            try: #is iput a number or a web address
                 iput = int(iput1)
                 iput = str(servers[iput])
                 print(f"Pinging {iput}.")
@@ -102,32 +111,32 @@ while True:
                 data = (get_data(iput,debug=config["Debug mode"]))
 
                 if data["online"] == True:
-                    print("Your server is online!")
+                    print(f"\n{config["Starting value for lists"]}Your server is online!")
 
-                    print("Version:",data["version"])
+                    print(f"\n{config["Starting value for lists"]}Version:",data["version"])
                     
-                    print("Motd:")
-                    basic.print_list(data["motd"]["clean"],config["Starting value for lists"],print_numbers=False)
+                    print(f"\n{config["Starting value for lists"]}Motd:")
+                    basic.print_list(data["motd"]["clean"],(config["Starting value for lists"] * 2),print_numbers=False)
                     
-                    print(f"Player count: {data["players"]["online"]}/{data["players"]["max"]}")
+                    print(f"\n{config["Starting value for lists"]}Player count: {data["players"]["online"]}/{data["players"]["max"]}")
                     if "list" in data["players"]:
                         print("Players:")
                         for pname in data["players"]["list"]:
-                            print(config["Starting value for lists"] + pname["name"])
+                            print((config["Starting value for lists"] * 2) + pname["name"])
                     
                     if "plugins" in data:
-                        print("Plugins:")
+                        print(f"\n{config["Starting value for lists"]}Plugins:")
                         for plname in data["plugins"]:
-                            print(config["Starting value for lists"] + plname["name"])
+                            print((config["Starting value for lists"] * 2) + plname["name"])
                     
                     if "mods" in data:
-                        print("Mods:")
+                        print(f"\n{config["Starting value for lists"]}Mods:")
                         for mname in data["mods"]:
-                            print(config["Starting value for lists"] + mname["name"],mname["version"])
+                            print((config["Starting value for lists"] * 2) + mname["name"],mname["version"])
 
                     if "info" in data:
-                        print("Info:")
-                        basic.print_list(data["info"]["clean"],config["Starting value for lists"],print_numbers=False)
+                        print(f"\n{config["Starting value for lists"]}Info:")
+                        basic.print_list(data["info"]["clean"],(config["Starting value for lists"] * 2),print_numbers=False)
                     
                     if "icon" in data:
                         imgdata = str(data["icon"])
@@ -141,7 +150,7 @@ while True:
                             with open(f"icons/{iput}.png","wb") as f:
                                 f.write(base64.b64decode(imgdata))
                             
-                            print(f"The server icon has been saved as {iput}.png")
+                            print(f"\n{config["Starting value for lists"]}The server icon has been saved as {iput}.png")
                             if config["Open server icon"] == True:
                                 icon = Image.open(f"icons/{iput}.png")
                                 icon.show()
@@ -150,14 +159,14 @@ while True:
                             with open("icon.png","wb") as f:
                                 f.write(base64.b64decode(imgdata))
                         
-                            print("The server icon has been saved as icon.png")
+                            print(f"\n{config["Starting value for lists"]}The server icon has been saved as icon.png")
                             if config["Open server icon"] == True:
                                 icon = Image.open("icon.png")
                                 icon.show()
                                 #basic.os.startfile("icon.png")
                             
                 else:
-                    print("Your server is offline.")
+                    print(f"\n{config["Starting value for lists"]}Your server is offline.")
 
         elif iput == 2: #make pack
             iput = input("Version name?\n")
