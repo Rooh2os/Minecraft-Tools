@@ -52,9 +52,9 @@ This one is pretty self explanatory, number of stacks in number of items out.
 
 To configure Minecraft Tools open config.txt (Gets generated when first running the program.)
 
-### "Open server icon": true/false
+### "Open images": true/false
 
-Open server icon can be used to disable the opening of the server icon when the download is complete.
+Open images can be used to disable the opening of images when the download is complete.
 
 ### "Save individual icons": true/false
 
@@ -78,7 +78,7 @@ Starting value for lists is used to change how much lists are indented
 
 ```
 {
-        "Open server icon": true,
+        "Open images": true,
         "Save individual icons": false,
         "Use advanced ping": true,
         "Max saved servers": 10,

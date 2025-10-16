@@ -56,7 +56,7 @@ try: #get/make config data
         print(f"DEBUG: {config}")
 except(FileNotFoundError):
     config = {
-        "Open server icon": True,
+        "Open images": True,
         "Save individual icons": False,
         "Use advanced ping": True,
         "Max saved servers": 10,
@@ -169,7 +169,7 @@ while True:
                                 f.write(base64.b64decode(imgdata))
                             
                             print(f"\n{config["Starting value for lists"]}The server icon has been saved as {iput}.png")
-                            if config["Open server icon"] == True:
+                            if config["Open images"] == True:
                                 icon = Image.open(f"icons/{iput}.png")
                                 icon.show()
                                 #basic.os.startfile(f"icons/{iput}.png")
@@ -178,7 +178,7 @@ while True:
                                 f.write(base64.b64decode(imgdata))
                         
                             print(f"\n{config["Starting value for lists"]}The server icon has been saved as icon.png")
-                            if config["Open server icon"] == True:
+                            if config["Open images"] == True:
                                 icon = Image.open("icon.png")
                                 icon.show()
                                 #basic.os.startfile("icon.png")
@@ -277,6 +277,10 @@ while True:
                 image.write(data.content)
             print(f"{iput}'s skin saved successfully")
 
+            if config["Open images"]:
+                image = Image.open(f"skins/{iput}_skin.png")
+                image.show
+
         elif iput == 4: #get user head
             iput = input("Username or UUID?\n")
             data = requests.get(f"https://mineskin.eu/helm/{iput}")
@@ -292,6 +296,10 @@ while True:
             with open(f"skins/{iput}_head.png","wb") as image:
                 image.write(data.content)
             print(f"{iput}'s head saved successfully")
+
+            if config["Open images"]:
+                image = Image.open(f"skins/{iput}_head.png.png")
+                image.show
         
         elif iput == 5: #get user skin for use
             iput = input("Username or UUID?\n")
@@ -308,6 +316,10 @@ while True:
             with open(f"skins/{iput}_usable_skin.png","wb") as image:
                 image.write(data.content)
             print(f"{iput}'s usable skin saved successfully")
+
+            if config["Open images"]:
+                image = Image.open(f"skins/{iput}_usable_skin.png")
+                image.show
 
         elif iput == 6: #make a server alias
             iput = input("Alias name?\n")
