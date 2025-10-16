@@ -90,7 +90,7 @@ while True:
 
 
     try:
-        iput = int(input("1: Ping server\n2: Make a template resorce pack\n3: Get user skin\n4: Get user head\n5: Get user usable skin\n6: Make a server alias\n7: Calculate # of items into stacks\n8: Calculate # of stacks to items\n"))
+        iput = int(input("1: Ping a server\n2: Make a template resorce pack\n3: Get a user's skin\n4: Get a user's head\n5: Get a user's usable skin\n6: Make a server alias\n7: Calculate # of items into stacks\n8: Calculate # of stacks to items\n"))
 
         basic.clear()
 
