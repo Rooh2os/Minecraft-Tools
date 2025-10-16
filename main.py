@@ -116,21 +116,25 @@ while True:
                     iput = str(servers[iput])
                     
                     if iput in aliases:
+                        servers.remove(iput)
+                        servers.insert(0,iput)
                         iput = aliases[iput]
                         do_check = False
+
 
                     print(f"Pinging {iput}.")
                 except(ValueError):
                     iput = str(iput1)
                     do_check = True
 
-                if not iput in servers and do_check: #adds iput to saved servers if not in saved servers
-                    servers.insert(0,iput)
-                    if len(servers) > config["Max saved servers"]:
-                        servers.remove(servers[config["Max saved servers"]])
-                else: #if it is move it to top
-                    servers.remove(iput)
-                    servers.insert(0,iput)
+                if do_check:
+                    if not iput in servers: #adds iput to saved servers if not in saved servers
+                        servers.insert(0,iput)
+                        if len(servers) > config["Max saved servers"]:
+                            servers.remove(servers[config["Max saved servers"]])
+                    else: #if it is move it to top
+                        servers.remove(iput)
+                        servers.insert(0,iput)
 
             basic.json_write("data",servers,0)
 
