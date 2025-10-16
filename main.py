@@ -1,4 +1,4 @@
-#cspell:ignore Rooh2os imgdata mcsrvstat plname pname pping pythonping resorce startfile tmot
+#cspell:ignore Rooh2os imgdata mcsrvstat plname pname pping pythonping resorce startfile tmot Hypixel
 import basic,requests,base64,zipfile
 from PIL import Image
 from pythonping import ping as pping
@@ -69,6 +69,17 @@ except(FileNotFoundError):
 
 debug = config["Debug mode"]
 
+try: #get/make aliases
+    aliases = (basic.json_read("aliases"))
+    if config["Debug mode"] == True:
+        print(f"DEBUG: {config}")
+except(FileNotFoundError):
+    aliases = {
+        "Hypixel": "mc.hypixel.net"
+    }
+    basic.json_write("aliases",aliases,4)
+    print("No aliases found, making new aliases.")
+
 #try: #make pack folder
 #    basic.os.mkdir("packs")
 #    print("No packs folder found. Making packs folder")
@@ -79,7 +90,7 @@ while True:
 
 
     try:
-        iput = int(input("1: Ping server\n2: Make a template resorce pack\n3: Get user skin\n4: Get user head\n5: Get user usable skin\n6: Calculate # of items into stacks\n7: Calculate # of stacks to items\n"))
+        iput = int(input("1: Ping server\n2: Make a template resorce pack\n3: Get user skin\n4: Get user head\n5: Get user usable skin\n6: Make a server alias\n7: Calculate # of items into stacks\n8: Calculate # of stacks to items\n"))
 
         basic.clear()
 
@@ -88,12 +99,15 @@ while True:
             
             iput1 = str(input("Server to ping?\nType a number for your saved servers or type a web address.\n"))
 
-            try: #is iput a number or a web address
-                iput = int(iput1)
-                iput = str(servers[iput])
-                print(f"Pinging {iput}.")
-            except(ValueError):
-                iput = str(iput1)
+            if iput1 in aliases:
+                iput = aliases[iput1]
+            else:
+                try: #is iput a number or a web address
+                    iput = int(iput1)
+                    iput = str(servers[iput])
+                    print(f"Pinging {iput}.")
+                except(ValueError):
+                    iput = str(iput1)
 
 
             if not iput in servers: #adds iput to saved servers if not in saved servers
@@ -295,15 +309,20 @@ while True:
                 image.write(data.content)
             print(f"{iput}'s usable skin saved successfully")
 
-        elif iput == 6: #>Stacks
+        elif iput == 6: #make a server alias
+            iput = input("Alias name?\n")
+            aliases[iput] = input("Alias address?\n")
+
+            basic.json_write("aliases",aliases,0)
+
+        elif iput == 7: #items>Stacks
             iput = int(input("# of items?\n"))
             print(f"Stacks: {(iput//64)} Items: {iput%64}")
         
-        elif iput == 7: #stacks>items
+        elif iput == 8: #stacks>items
             iput = int(input("# of stacks\n"))
             iput1 = int(input("# of items\n"))
             print(f"You have {iput1 + iput * 64} items")
-        
         
         else: #bad input
             raise(ValueError)
