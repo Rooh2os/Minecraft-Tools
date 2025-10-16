@@ -298,7 +298,7 @@ while True:
             print(f"{iput}'s head saved successfully")
 
             if config["Open images"]:
-                image = Image.open(f"skins/{iput}_head.png.png")
+                image = Image.open(f"skins/{iput}_head.png")
                 image.show
         
         elif iput == 5: #get user skin for use
