@@ -101,7 +101,24 @@ while True:
 
             if iput1 in aliases:
                 iput = aliases[iput1]
+
+                if not iput1 in servers: #adds iput to saved servers if not in saved servers
+                    servers.insert(0,iput1)
+                    if len(servers) > config["Max saved servers"]:
+                        servers.remove(servers[config["Max saved servers"]])
+                else: #if it is move it to top
+                    servers.remove(iput1)
+                    servers.insert(0,iput1)
+
             else:
+                if not iput in servers: #adds iput to saved servers if not in saved servers
+                    servers.insert(0,iput)
+                    if len(servers) > config["Max saved servers"]:
+                        servers.remove(servers[config["Max saved servers"]])
+                else: #if it is move it to top
+                    servers.remove(iput)
+                    servers.insert(0,iput)
+                
                 try: #is iput a number or a web address
                     iput = int(iput1)
                     iput = str(servers[iput])
@@ -110,13 +127,7 @@ while True:
                     iput = str(iput1)
 
 
-            if not iput in servers: #adds iput to saved servers if not in saved servers
-                servers.insert(0,iput)
-                if len(servers) > config["Max saved servers"]:
-                    servers.remove(servers[config["Max saved servers"]])
-            else: #if it is move it to top
-                servers.remove(iput)
-                servers.insert(0,iput)
+            
 
             basic.json_write("data",servers,0)
 
