@@ -114,6 +114,10 @@ while True:
                 try: #is iput a number or a web address
                     iput = int(iput1)
                     iput = str(servers[iput])
+                    
+                    if iput in aliases:
+                        iput = aliases[iput]
+
                     print(f"Pinging {iput}.")
                 except(ValueError):
                     iput = str(iput1)
