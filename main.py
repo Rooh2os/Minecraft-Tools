@@ -1,3 +1,4 @@
+#cspell:ignore Rooh2os imgdata mcsrvstat plname pname pping pythonping resorce startfile tmot
 import basic,requests,base64,zipfile
 from PIL import Image
 from pythonping import ping as pping
@@ -7,12 +8,13 @@ config = dict
 servers = list
 iput = str #also sometimes an int
 iput1 = str #also sometimes an int
+debug = bool
 
 
 
 
 
-def ping(host, cnt, tmot): #writen by AI
+def ping(host, cnt, tmot): #written by AI
     try:
         responses = pping(host, count=cnt, timeout=tmot)
 
@@ -65,6 +67,8 @@ except(FileNotFoundError):
     basic.json_write("config.txt",config,4)
     print("No config found, making new config.")
 
+debug = config["Debug mode"]
+
 #try: #make pack folder
 #    basic.os.mkdir("packs")
 #    print("No packs folder found. Making packs folder")
@@ -75,7 +79,7 @@ while True:
 
 
     try:
-        iput = int(input("1: Ping server\n2: Make a template resorce pack\n3: Calculate # of items into stacks\n4: Calculate # of stacks to items\n"))
+        iput = int(input("1: Ping server\n2: Make a template resorce pack\n3: Get user skin\n4: Get user head\n5: Get user usable skin\n6: Calculate # of items into stacks\n7: Calculate # of stacks to items\n"))
 
         basic.clear()
 
@@ -107,7 +111,7 @@ while True:
                     print("Your server is online!")
                 else:
                     print("Your server is offline.")
-            else: #use the minecraft ping protocall
+            else: #use the minecraft ping protocol
                 data = (get_data(iput,debug=config["Debug mode"]))
 
                 if data["online"] == True:
@@ -241,13 +245,61 @@ while True:
             basic.os.remove("temp")
             basic.os.remove("temp1")
 
-            print(f"Template pack for {iput} made sucessfully")
+            print(f"Template pack for {iput} made successfully")
 
-        elif iput == 3: #>Stacks
+        elif iput == 3: #get user skin
+            iput = input("Username or UUID?\n")
+            data = requests.get(f"https://mineskin.eu/armor/body/{iput}")
+            
+            if debug:
+                print(data.text)
+            
+            try:
+                basic.os.mkdir("skins")
+            except(FileExistsError):
+                pass
+
+            with open(f"skins/{iput}_skin.png","wb") as image:
+                image.write(data.content)
+            print(f"{iput}'s skin saved successfully")
+
+        elif iput == 4: #get user head
+            iput = input("Username or UUID?\n")
+            data = requests.get(f"https://mineskin.eu/helm/{iput}")
+            
+            if debug:
+                print(data.text)
+            
+            try:
+                basic.os.mkdir("skins")
+            except(FileExistsError):
+                pass
+
+            with open(f"skins/{iput}_head.png","wb") as image:
+                image.write(data.content)
+            print(f"{iput}'s head saved successfully")
+        
+        elif iput == 5: #get user skin for use
+            iput = input("Username or UUID?\n")
+            data = requests.get(f"https://mineskin.eu/skin/{iput}")
+            
+            if debug:
+                print(data.text)
+            
+            try:
+                basic.os.mkdir("skins")
+            except(FileExistsError):
+                pass
+
+            with open(f"skins/{iput}_usable_skin.png","wb") as image:
+                image.write(data.content)
+            print(f"{iput}'s usable skin saved successfully")
+
+        elif iput == 6: #>Stacks
             iput = int(input("# of items?\n"))
             print(f"Stacks: {(iput//64)} Items: {iput%64}")
         
-        elif iput == 4: #stacks>items
+        elif iput == 7: #stacks>items
             iput = int(input("# of stacks\n"))
             iput1 = int(input("# of items\n"))
             print(f"You have {iput1 + iput * 64} items")
