@@ -117,12 +117,14 @@ while True:
                     
                     if iput in aliases:
                         iput = aliases[iput]
+                        do_check = False
 
                     print(f"Pinging {iput}.")
                 except(ValueError):
                     iput = str(iput1)
+                    do_check = True
 
-                if not iput in servers: #adds iput to saved servers if not in saved servers
+                if not iput in servers and do_check: #adds iput to saved servers if not in saved servers
                     servers.insert(0,iput)
                     if len(servers) > config["Max saved servers"]:
                         servers.remove(servers[config["Max saved servers"]])
