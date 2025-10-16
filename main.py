@@ -297,7 +297,7 @@ while True:
 
             if config["Open images"]:
                 image = Image.open(f"skins/{iput}_skin.png")
-                image.show
+                image.show()
 
         elif iput == 4: #get user head
             iput = input("Username or UUID?\n")
@@ -317,7 +317,7 @@ while True:
 
             if config["Open images"]:
                 image = Image.open(f"skins/{iput}_head.png")
-                image.show
+                image.show()
         
         elif iput == 5: #get user skin for use
             iput = input("Username or UUID?\n")
@@ -337,7 +337,7 @@ while True:
 
             if config["Open images"]:
                 image = Image.open(f"skins/{iput}_usable_skin.png")
-                image.show
+                image.show()
 
         elif iput == 6: #make a server alias
             iput = input("Alias name?\n")
