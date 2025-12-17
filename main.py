@@ -258,19 +258,27 @@ while True:
             mcmeta = (basic.json_read("temp1"))
             
             try:
-                mcmeta = {
-                    "pack":{
-                        "description": "Made with Minecraft Tools by Rooh2os",
-                        "pack_format": (mcmeta["pack_version"]["data"])
+                try:
+                    mcmeta = {
+                        "pack":{
+                            "description": "Made with Minecraft Tools by Rooh2os",
+                            "pack_format": (mcmeta["pack_version"]["data"])
+                        }
                     }
-                }
+                except(TypeError):
+                    mcmeta = {
+                        "pack":{
+                            "description": "Made with Minecraft Tools by Rooh2os",
+                            "pack_format": (mcmeta["pack_version"]["resource_major"])
+                        }
+                    }
             except(TypeError):
-                mcmeta = {
-                    "pack":{
-                        "description": "Made with Minecraft Tools by Rooh2os",
-                        "pack_format": (mcmeta["pack_version"])
+                    mcmeta = {
+                        "pack":{
+                            "description": "Made with Minecraft Tools by Rooh2os",
+                            "pack_format": (mcmeta["pack_version"])
+                        }
                     }
-                }
             
             basic.json_write(f"packs/{iput}/pack.mcmeta",mcmeta,4)
 
@@ -359,6 +367,8 @@ while True:
     
     except(KeyError):
         basic.os.remove("temp")
+        basic.os.remove("temp1")
+        basic.os.remove("version.json")
         print("You must use a version above 1.14")
 
     except(ValueError,IndexError): #fix bad input
